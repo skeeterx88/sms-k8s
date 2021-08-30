@@ -24,6 +24,13 @@
         content: "{{ lookup('template', 'templates/hosts.j2') }}"
         state: present
 
+    - name: update /etc/resolv.conf file
+      become: true
+      blockinfile:
+        dest: /etc/resolv.conf
+        content: "{{ lookup('template', 'templates/resolv.j2') }}"
+        state: present
+
     - name: Instalar epel
       yum:
         name: epel-release
