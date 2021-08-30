@@ -29,7 +29,6 @@
       copy:
         dest: /etc/resolv.conf
         src: templates/resolv.j2
-        state: present
         owner: root
         group: root
         mode: '0644'
