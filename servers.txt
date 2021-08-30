@@ -1,0 +1,17 @@
+Bastion
+srvk8sb01
+172.16.208.4
+
+Master
+srvk8sm01
+172.16.208.1
+srvk8sm02
+172.16.208.2
+srvk8sm03
+172.16.208.3
+
+Worker
+srvk8sw01
+172.16.208.5
+srvk8sw02
+172.16.208.6

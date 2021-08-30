@@ -1,0 +1,90 @@
+---
+- name: Pré-requisitos instalação kubernetes
+  hosts: all
+  become: true
+  vars:
+    usuario_k8s: kubernetes
+    pacotes_k8s:
+      - git
+      - python3
+      - python3-pip
+      - python3-devel
+      - openssl-devel
+      - gcc
+      - libffi-devel
+  tasks:
+    - name: Desabilitar SELINUX
+      selinux:
+        state: disabled
+
+    - name: update /etc/hosts file
+      become: true
+      blockinfile:
+        dest: /etc/hosts
+        content: "{{ lookup('template', 'templates/hosts.j2') }}"
+        state: present
+
+    - name: Instalar epel
+      yum:
+        name: epel-release
+        state: present
+        update_cache: True
+
+    - name: Instalar pacotes necessários
+      yum:
+        name: '{{ item }}'
+        state: present
+        update_cache: True
+      with_items: '{{ pacotes_k8s }}'
+
+    - name: Pip upgrade
+      pip:
+        name: pip
+        executable: pip3
+        state: latest
+
+    - name: Criar grupo wheel
+      group:
+        name: wheel
+        state: present
+
+    - name: Permitir ao grupo wheel poderes de superusuário
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s
+
+    - name: Adicionar usuário kubernetes
+      user: 
+        name: '{{ usuario_k8s }}'
+        shell: /bin/bash
+        groups: wheel
+        append: yes
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: kubernetes
+        state: present
+        key: "{{ lookup('file', '/home/kubernetes/.ssh/id_rsa.pub') }}"
+
+#    - name: Habilitando bridge-nf-call-iptables
+#      sysctl:
+#        name: bridge-nf-call-iptables
+#        value: 1
+#        sysctl_set: yes
+#        state: present
+#        reload: yes
+
+#    - name: Habilitando net.ipv4.ip_forward
+#      sysctl:
+#        name: net.ipv4.ip_forward
+#        value: "1"
+#        sysctl_set: yes
+#        state: present
+#        reload: yes
+
+    - name: Desabilitando swap
+      shell: "swapoff -a"
+      when: (swap_used.stdout_lines[0] | int) > 100
