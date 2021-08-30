@@ -26,10 +26,13 @@
 
     - name: update /etc/resolv.conf file
       become: true
-      blockinfile:
+      copy:
         dest: /etc/resolv.conf
-        content: "{{ lookup('template', 'templates/resolv.j2') }}"
+        src: templates/resolv.j2
         state: present
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Instalar epel
       yum:
