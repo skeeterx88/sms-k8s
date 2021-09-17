@@ -134,7 +134,7 @@ Nota: Tipos de SO baseados em Upstart / SysV init não são suportados.
 - Plugin de rede
   - [cni-plugins](https://github.com/containernetworking/plugins) v0.9.1
   - [calico](https://github.com/projectcalico/calico) v3.17.4
-  - [canal](https://github.com/projectcalico/canal) (given calico/flannel versions)
+  - [canal](https://github.com/projectcalico/canal) (dadas as versões de calico/flannel)
   - [cilium](https://github.com/cilium/cilium) v1.8.9
   - [flanneld](https://github.com/coreos/flannel) v0.13.0
   - [kube-ovn](https://github.com/alauda/kube-ovn) v1.6.2
@@ -142,7 +142,7 @@ Nota: Tipos de SO baseados em Upstart / SysV init não são suportados.
   - [multus](https://github.com/intel/multus-cni) v3.7.0
   - [ovn4nfv](https://github.com/opnfv/ovn4nfv-k8s-plugin) v1.1.0
   - [weave](https://github.com/weaveworks/weave) v2.8.1
-- Application
+- Aplicativo
   - [ambassador](https://github.com/datawire/ambassador): v1.5
   - [cephfs-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.0-k8s1.11
   - [rbd-provisioner](https://github.com/kubernetes-incubator/external-storage) v2.1.1-k8s1.11
@@ -150,91 +150,83 @@ Nota: Tipos de SO baseados em Upstart / SysV init não são suportados.
   - [coredns](https://github.com/coredns/coredns) v1.7.0
   - [ingress-nginx](https://github.com/kubernetes/ingress-nginx) v0.43.0
 
-## Container Runtime Notes
+## **Notas de tempo de execução do contêiner**
 
-- The list of available docker version is 18.09, 19.03 and 20.10. The recommended docker version is 19.03. The kubelet might break on docker's non-standard version numbering (it no longer uses semantic versioning). To ensure auto-updates don't break your cluster look into e.g. yum versionlock plugin or apt pin).
-- The cri-o version should be aligned with the respective kubernetes version (i.e. kube_version=1.20.x, crio_version=1.20)
+- A lista de versões docker disponíveis é 18.09, 19.03 e 20.10. A versão do docker recomendada é 19.03. O kubelet pode falhar na numeração de versão não padrão do docker (ele não usa mais o controle de versão semântico). Para garantir que as atualizações automáticas não quebrem seu cluster, procure, por exemplo, o plugin yum versionlock ou apt pin).
+- A versão cri-o deve ser alinhada com a respectiva versão do kubernetes (ou seja, kube_version = 1.20.x, crio_version = 1.20)
 
-## Requirements
+## **Requisitos**
 
-- **Minimum required version of Kubernetes is v1.19**
-- **Ansible v2.9.x, Jinja 2.11+ and python-netaddr is installed on the machine that will run Ansible commands, Ansible 2.10.x is experimentally supported for now**
-- The target servers must have **access to the Internet** in order to pull docker images. Otherwise, additional configuration is required (See [Offline Environment](docs/offline-environment.md))
-- The target servers are configured to allow **IPv4 forwarding**.
-- If using IPv6 for pods and services, the target servers are configured to allow **IPv6 forwarding**.
-- The **firewalls are not managed**, you'll need to implement your own rules the way you used to.
-    in order to avoid any issue during deployment you should disable your firewall.
-- If kubespray is ran from non-root user account, correct privilege escalation method
-    should be configured in the target servers. Then the `ansible_become` flag
-    or command parameters `--become or -b` should be specified.
+-  **A versão mínima exigida do Kubernetes é v1.19**
+- **Ansible v2.9.x, Jinja 2.11+ e python-netaddr estão instalados na máquina que executará os comandos Ansible, Ansible 2.10.x é experimentalmente compatível por enquanto**
+- Os servidores de destino devem ter **acesso à Internet** para obter imagens do docker. Caso contrário, é necessária configuração adicional (consulte Ambiente offline) 
+- Os servidores de destino são configurados para permitir **IPv4 forwarding**.
+--   Se estiver usando IPv6 para pods e serviços, os servidores de destino serão configurados para permitir o **IPv6 forwarding**.
+- Os **firewalls não são gerenciados**, você precisará implementar suas próprias regras da maneira que costumava fazer. Para evitar qualquer problema durante a implantação, você deve desabilitar o firewall.
+- Se o kubespray for executado a partir de uma conta de usuário não raiz, o método correto de escalonamento de privilégios deve ser configurado nos servidores de destino. 
+Em seguida, o `ansible_become` sinalizador ou os parâmetros de comando `--become or -b` devem ser especificados.
 
 Hardware:
-These limits are safe guarded by Kubespray. Actual requirements for your workload can differ. For a sizing guide go to the [Building Large Clusters](https://kubernetes.io/docs/setup/cluster-large/#size-of-master-and-master-components) guide.
+Esses limites são protegidos pelo Kubespray. Os requisitos reais para sua carga de trabalho podem ser diferentes. Para obter um guia de dimensionamento, vá para o guia Building Large Clusters.
 
 - Master
   - Memory: 1500 MB
 - Node
   - Memory: 1024 MB
 
-## Network Plugins
+## Plugins de Rede
 
-You can choose between 10 network plugins. (default: `calico`, except Vagrant uses `flannel`)
+Você pode escolher entre 10 plug-ins de rede. (padrão `calico`, exceto para usos do Vagrant `flannel`)
 
-- [flannel](docs/flannel.md): gre/vxlan (layer 2) networking.
+- [flannel](docs/flannel.md): rede gre / vxlan (camada 2).
 
-- [Calico](https://docs.projectcalico.org/latest/introduction/) is a networking and network policy provider. Calico supports a flexible set of networking options
-    designed to give you the most efficient networking across a range of situations, including non-overlay
-    and overlay networks, with or without BGP. Calico uses the same engine to enforce network policy for hosts,
-    pods, and (if using Istio and Envoy) applications at the service mesh layer.
+- [Calico](https://docs.projectcalico.org/latest/introduction/) é um provedor de rede e política de rede. 
+Calico oferece suporte a um conjunto flexível de opções de rede projetadas para fornecer a você a rede mais eficiente em uma variedade de situações, incluindo redes não sobrepostas e sobrepostas, com ou sem BGP. 
+Calico usa o mesmo mecanismo para aplicar a política de rede para hosts, pods e (se estiver usando Istio e Envoy) aplicativos na camada de malha de serviço.
 
-- [canal](https://github.com/projectcalico/canal): a composition of calico and flannel plugins.
+- [canal](https://github.com/projectcalico/canal): uma composição de plugins de calico and flannel.
 
-- [cilium](http://docs.cilium.io/en/latest/): layer 3/4 networking (as well as layer 7 to protect and secure application protocols), supports dynamic insertion of BPF bytecode into the Linux kernel to implement security services, networking and visibility logic.
+- [cilium](http://docs.cilium.io/en/latest/): rede da camada 3/4 (bem como da camada 7 para proteger e proteger os protocolos de aplicativos), oferece suporte à inserção dinâmica de bytecode BPF no kernel do Linux para implementar serviços de segurança, rede e lógica de visibilidade.
 
-- [ovn4nfv](docs/ovn4nfv.md): [ovn4nfv-k8s-plugins](https://github.com/opnfv/ovn4nfv-k8s-plugin) is the network controller, OVS agent and CNI server to offer basic SFC and OVN overlay networking.
+- [ovn4nfv](docs/ovn4nfv.md): [ovn4nfv-k8s-plugins](https://github.com/opnfv/ovn4nfv-k8s-plugin) é o controlador de rede, agente OVS e servidor CNI para oferecer rede de sobreposição SFC e OVN básica.
 
-- [weave](docs/weave.md): Weave is a lightweight container overlay network that doesn't require an external K/V database cluster.
-    (Please refer to `weave` [troubleshooting documentation](https://www.weave.works/docs/net/latest/troubleshooting/)).
+- [weave](docs/weave.md): Weave é uma rede de sobreposição de contêiner leve que não requer um cluster de banco de dados K/V externo.
+    ((Consulte a `weave` [troubleshooting documentation](https://www.weave.works/docs/net/latest/troubleshooting/)).
 
-- [kube-ovn](docs/kube-ovn.md): Kube-OVN integrates the OVN-based Network Virtualization with Kubernetes. It offers an advanced Container Network Fabric for Enterprises.
+- [kube-ovn](docs/kube-ovn.md): Kube-OVN integra a virtualização de rede baseada em OVN com Kubernetes. Ele oferece um avançado Container Network Fabric para empresas.
 
-- [kube-router](docs/kube-router.md): Kube-router is a L3 CNI for Kubernetes networking aiming to provide operational
-    simplicity and high performance: it uses IPVS to provide Kube Services Proxy (if setup to replace kube-proxy),
-    iptables for network policies, and BGP for ods L3 networking (with optionally BGP peering with out-of-cluster BGP peers).
-    It can also optionally advertise routes to Kubernetes cluster Pods CIDRs, ClusterIPs, ExternalIPs and LoadBalancerIPs.
+- [kube-router](docs/kube-router.md): Kube-router é um L3 CNI para rede Kubernetes com o objetivo de fornecer simplicidade operacional e alto desempenho: ele usa IPVS para fornecer Kube Services Proxy (se configurado para substituir kube-proxy), iptables para políticas de rede e BGP para ods Rede L3 (com peering BGP opcional com peers BGP fora do cluster). Ele também pode anunciar rotas para CIDRs, ClusterIPs, ExternalIPs e LoadBalancerIPs de Pods de cluster do Kubernetes.
 
-- [macvlan](docs/macvlan.md): Macvlan is a Linux network driver. Pods have their own unique Mac and Ip address, connected directly the physical (layer 2) network.
+- [macvlan](docs/macvlan.md): Macvlan é um driver de rede Linux. Os pods têm seus próprios endereços Mac e IP exclusivos, conectados diretamente à rede física (camada 2).
 
-- [multus](docs/multus.md): Multus is a meta CNI plugin that provides multiple network interface support to pods. For each interface Multus delegates CNI calls to secondary CNI plugins such as Calico, macvlan, etc.
+- [multus](docs/multus.md): Multus é um plug-in meta CNI que fornece suporte a várias interfaces de rede para pods. Para cada interface, Multus delega chamadas CNI para plug-ins CNI secundários, como Calico, macvlan, etc.
 
-The choice is defined with the variable `kube_network_plugin`. There is also an
-option to leverage built-in cloud provider networking instead.
-See also [Network checker](docs/netcheck.md).
+A escolha é definida com a variável `kube_network_plugin`. Também há uma opção de aproveitar a rede de provedor de nuvem integrada. Veja também [Verificador de rede.](docs/netcheck.md).
 
 ## Ingress Plugins
 
-- [ambassador](docs/ambassador.md): the Ambassador Ingress Controller and API gateway.
+- [ambassador](docs/ambassador.md): O Ambassador Ingress Controller e gateway de API.
 
-- [nginx](https://kubernetes.github.io/ingress-nginx): the NGINX Ingress Controller.
+- [nginx](https://kubernetes.github.io/ingress-nginx): o controlador de entrada NGINX.
 
-- [metallb](docs/metallb.md): the MetalLB bare-metal service LoadBalancer provider.
+- [metallb](docs/metallb.md): o provedor LoadBalancer de serviço bare-metal da MetalLB.
 
-## Community docs and resources
+## **Documentos e recursos da comunidade**
 
 - [kubernetes.io/docs/setup/production-environment/tools/kubespray/](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/)
-- [kubespray, monitoring and logging](https://github.com/gregbkr/kubernetes-kargo-logging-monitoring) by @gregbkr
-- [Deploy Kubernetes w/ Ansible & Terraform](https://rsmitty.github.io/Terraform-Ansible-Kubernetes/) by @rsmitty
-- [Deploy a Kubernetes Cluster with Kubespray (video)](https://www.youtube.com/watch?v=CJ5G4GpqDy0)
+- [kubespray, monitoramento e registro](https://github.com/gregbkr/kubernetes-kargo-logging-monitoring) por @gregbkr
+- [Implantar Kubernetes com Ansible e Terraform](https://rsmitty.github.io/Terraform-Ansible-Kubernetes/) por @rsmitty
+- [Implante um cluster Kubernetes com Kubespray (vídeo)](https://www.youtube.com/watch?v=CJ5G4GpqDy0)
 
-## Tools and projects on top of Kubespray
+## **Ferramentas e projetos além do Kubespray**
 
 - [Digital Rebar Provision](https://github.com/digitalrebar/provision/blob/v4/doc/integrations/ansible.rst)
 - [Terraform Contrib](https://github.com/kubernetes-sigs/kubespray/tree/master/contrib/terraform)
 
-## CI Tests
+## **Testes de CI**
 
 [![Build graphs](https://gitlab.com/kargo-ci/kubernetes-sigs-kubespray/badges/master/pipeline.svg)](https://gitlab.com/kargo-ci/kubernetes-sigs-kubespray/pipelines)
 
-CI/end-to-end tests sponsored by: [CNCF](https://cncf.io), [Packet](https://www.packet.com/), [OVHcloud](https://www.ovhcloud.com/), [ELASTX](https://elastx.se/).
+Testes de CI / ponta a ponta patrocinados por: [CNCF](https://cncf.io), [Packet](https://www.packet.com/), [OVHcloud](https://www.ovhcloud.com/), [ELASTX](https://elastx.se/).
 
-See the [test matrix](docs/test_cases.md) for details.
+Consulte a [matriz de teste](docs/test_cases.md) para obter detalhes.
