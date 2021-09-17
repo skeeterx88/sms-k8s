@@ -1,9 +1,9 @@
-# Deploy a Production Ready Kubernetes Cluster
+# Implantar um cluster Kubernetes pronto para produção
 
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 
-If you have questions, check the documentation at [kubespray.io](https://kubespray.io) and join us on the [kubernetes slack](https://kubernetes.slack.com), channel **\#kubespray**.
-You can get your invite [here](http://slack.k8s.io/)
+Se você tiver dúvidas, verifique a documentação em kubespray.io e junte-se a nós no slack do kubernetes , canal #kubespray. 
+Você pode obter o seu convite aqui.(http://slack.k8s.io/)
 
 - Can be deployed on **[AWS](docs/aws.md), GCE, [Azure](docs/azure.md), [OpenStack](docs/openstack.md), [vSphere](docs/vsphere.md), [Packet](docs/packet.md) (bare metal), Oracle Cloud Infrastructure (Experimental), or Baremetal**
 - **Highly available** cluster
