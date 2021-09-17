@@ -5,19 +5,19 @@
 Se você tiver dúvidas, verifique a documentação em kubespray.io e junte-se a nós no slack do kubernetes , canal #kubespray. 
 Você pode obter o seu convite aqui.(http://slack.k8s.io/)
 
-- Can be deployed on **[AWS](docs/aws.md), GCE, [Azure](docs/azure.md), [OpenStack](docs/openstack.md), [vSphere](docs/vsphere.md), [Packet](docs/packet.md) (bare metal), Oracle Cloud Infrastructure (Experimental), or Baremetal**
+- Pode ser implantado em AWS,  GCE, Azure, OpenStack, vSphere, Packet (bare m etal), Oracle Cloud Infrastructure (Experimental) ou Baremetal
 - **Highly available** cluster
-- **Composable** (Choice of the network plugin for instance)
-- Supports most popular **Linux distributions**
+- **Composable** (escolha do plugin de rede, por exemplo)
+- Suporta **Linux distributions** mais populares
 - **Continuous integration tests**
 
-## Quick Start
+## **Começo rápido**
 
-To deploy the cluster you can use :
+Para implantar o cluster, você pode usar:
 
 ### Ansible
 
-#### Usage
+#### **Uso**
 
 ```ShellSession
 # Install dependencies from ``requirements.txt``
@@ -41,20 +41,17 @@ cat inventory/mycluster/group_vars/k8s_cluster/k8s_cluster.yml
 ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
 ```
 
-Note: When Ansible is already installed via system packages on the control machine, other python packages installed via `sudo pip install -r requirements.txt` will go to a different directory tree (e.g. `/usr/local/lib/python2.7/dist-packages` on Ubuntu) from Ansible's (e.g. `/usr/lib/python2.7/dist-packages/ansible` still on Ubuntu).
-As a consequence, `ansible-playbook` command will fail with:
+Nota: Quando o Ansible já está instalado por meio de pacotes de sistema na máquina de controle, outros pacotes python instalados por sudo pip install -r requirements.txt vão para uma árvore de diretório diferente (por exemplo, /usr/local/lib/python2.7/dist-packages, no Ubuntu) do Ansible (por exemplo, /usr/lib/python2.7/dist-packages/ansible, ainda no Ubuntu). Como consequência, o ansible-playbook comando falhará com:
 
 ```raw
 ERROR! no action detected in task. This often indicates a misspelled module name, or incorrect module path.
 ```
 
-probably pointing on a task depending on a module present in requirements.txt.
+Provavelmente apontando para uma tarefa, dependendo de um módulo presente em requirements.txt.
 
-One way of solving this would be to uninstall the Ansible package and then, to install it via pip but it is not always possible.
-A workaround consists of setting `ANSIBLE_LIBRARY` and `ANSIBLE_MODULE_UTILS` environment variables respectively to the `ansible/modules` and `ansible/module_utils` subdirectories of pip packages installation location, which can be found in the Location field of the output of `pip show [package]` before executing `ansible-playbook`.
+Uma maneira de resolver isso seria desinstalar o pacote Ansible e, em seguida, instalá-lo via pip, mas nem sempre é possível. Uma solução consiste em configuração `ANSIBLE_LIBRARY` e `ANSIBLE_MODULE_UTILS` variáveis de ambiente, respectivamente, para os `ansible/modules` e `ansible/module_utils` subdiretórios de pacotes pip local de instalação, que podem ser encontrados no campo Localização da saída do`pip show [package` antes de executar `ansible-playbook`.
 
-A simple way to ensure you get all the correct version of Ansible is to use the [pre-built docker image from Quay](https://quay.io/repository/kubespray/kubespray?tab=tags).
-You will then need to use [bind mounts](https://docs.docker.com/storage/bind-mounts/) to get the inventory and ssh key into the container, like this:
+Uma maneira simples de garantir que você obtenha a versão correta do Ansible é usar a pre-built docker image from Quay. Em seguida, você precisará usar bind mounts para obter o inventário e a chave ssh no contêiner, como este:
 
 ```ShellSession
 docker pull quay.io/kubespray/kubespray:v2.15.1
@@ -67,22 +64,20 @@ ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa clu
 
 ### Vagrant
 
-For Vagrant we need to install python dependencies for provisioning tasks.
-Check if Python and pip are installed:
+Para o Vagrant, precisamos instalar dependências Python para tarefas de provisionamento. Verifique se o Python e o pip estão instalados:
 
 ```ShellSession
 python -V && pip -V
 ```
 
-If this returns the version of the software, you're good to go. If not, download and install Python from here <https://www.python.org/downloads/source/>
-Install the necessary requirements
+Se isso retornar a versão do software, você está pronto para prosseguir. Caso contrário, baixe e instale o Python aqui https://www.python.org/downloads/source/ Instale os requisitos necessários
 
 ```ShellSession
 sudo pip install -r requirements.txt
 vagrant up
 ```
 
-## Documents
+## **Documentos**
 
 - [Requirements](#requirements)
 - [Kubespray vs ...](docs/comparisons.md)
@@ -119,23 +114,24 @@ vagrant up
 - **Ubuntu** 16.04, 18.04, 20.04
 - **CentOS/RHEL** 7, [8](docs/centos8.md)
 - **Fedora** 32, 33
-- **Fedora CoreOS** (experimental: see [fcos Note](docs/fcos.md))
+- **Fedora CoreOS** (experimental: ver [**nota fcos**](docs/fcos.md))
 - **openSUSE** Leap 15.x/Tumbleweed
 - **Oracle Linux** 7, [8](docs/centos8.md)
 - **Alma Linux** [8](docs/centos8.md)
-- **Amazon Linux 2** (experimental: see [amazon linux notes](docs/amazonlinux.md)
+- **Amazon Linux 2** (experimental: veja [amazon linux notes](docs/amazonlinux.md)
 
-Note: Upstart/SysV init based OS types are not supported.
+Nota: Tipos de SO baseados em Upstart / SysV init não são suportados.
 
-## Supported Components
+## **Componentes Suportados**
 
-- Core
+- Essencial
   - [kubernetes](https://github.com/kubernetes/kubernetes) v1.20.7
   - [etcd](https://github.com/coreos/etcd) v3.4.13
   - [docker](https://www.docker.com/) v19.03 (see note)
   - [containerd](https://containerd.io/) v1.4.4
-  - [cri-o](http://cri-o.io/) v1.20 (experimental: see [CRI-O Note](docs/cri-o.md). Only on fedora, ubuntu and centos based OS)
-- Network Plugin
+  - [cri-o](http://cri-o.io/) v1.20 (experimental: veja [CRI-O Note](docs/cri-o.md). Somente em sistemas operacionais baseados em fedora, ubuntu e centos)
+ 
+- Plugin de rede
   - [cni-plugins](https://github.com/containernetworking/plugins) v0.9.1
   - [calico](https://github.com/projectcalico/calico) v3.17.4
   - [canal](https://github.com/projectcalico/canal) (given calico/flannel versions)
