@@ -1,0 +1,14 @@
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: cluster.sms.fortaleza
+spec:
+  hostname: "*"
+  acmeProvider:
+    authority: none
+  tlsSecret:
+    name: tls-cert
+  selector:
+    matchLabels:
+      hostname: cluster.sms.fortaleza

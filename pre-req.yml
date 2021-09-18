@@ -12,6 +12,7 @@
       - openssl-devel
       - gcc
       - libffi-devel
+      - iscsi-initiator-utils
   tasks:
     - name: Desabilitar SELINUX
       selinux:

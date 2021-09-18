@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: kube-metallb-system
+  name: metallb-system
   labels:
     app: metallb
 ---
@@ -11,7 +11,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-metallb-system
+  namespace: metallb-system
 spec:
   allowPrivilegeEscalation: false
   allowedCapabilities: []
@@ -54,7 +54,7 @@ metadata:
   labels:
     app: metallb
   name: speaker
-  namespace: kube-metallb-system
+  namespace: metallb-system
 spec:
   allowPrivilegeEscalation: false
   allowedCapabilities:
@@ -94,7 +94,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-metallb-system
+  namespace: metallb-system
 ---
 {% if metallb_speaker_enabled %}
 apiVersion: v1
@@ -103,7 +103,7 @@ metadata:
   labels:
     app: metallb
   name: speaker
-  namespace: kube-metallb-system
+  namespace: metallb-system
 {% endif %}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -111,7 +111,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: metallb
-  name: kube-metallb-system:controller
+  name: metallb-system:controller
 rules:
 - apiGroups:
   - ''
@@ -150,7 +150,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: metallb
-  name: kube-metallb-system:speaker
+  name: metallb-system:speaker
 rules:
 - apiGroups:
   - ''
@@ -185,7 +185,7 @@ metadata:
   labels:
     app: metallb
   name: config-watcher
-  namespace: kube-metallb-system
+  namespace: metallb-system
 rules:
 - apiGroups:
   - ''
@@ -202,7 +202,7 @@ metadata:
   labels:
     app: metallb
   name: pod-lister
-  namespace: kube-metallb-system
+  namespace: metallb-system
 rules:
 - apiGroups:
   - ''
@@ -216,15 +216,15 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: metallb
-  name: kube-metallb-system:controller
+  name: metallb-system:controller
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: kube-metallb-system:controller
+  name: metallb-system:controller
 subjects:
 - kind: ServiceAccount
   name: controller
-  namespace: kube-metallb-system
+  namespace: metallb-system
 ---
 {% if metallb_speaker_enabled %}
 apiVersion: rbac.authorization.k8s.io/v1
@@ -232,15 +232,15 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: metallb
-  name: kube-metallb-system:speaker
+  name: metallb-system:speaker
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: kube-metallb-system:speaker
+  name: metallb-system:speaker
 subjects:
 - kind: ServiceAccount
   name: speaker
-  namespace: kube-metallb-system
+  namespace: metallb-system
 {% endif %}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -249,7 +249,7 @@ metadata:
   labels:
     app: metallb
   name: config-watcher
-  namespace: kube-metallb-system
+  namespace: metallb-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -266,7 +266,7 @@ metadata:
   labels:
     app: metallb
   name: pod-lister
-  namespace: kube-metallb-system
+  namespace: metallb-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -283,7 +283,7 @@ metadata:
     app: metallb
     component: speaker
   name: speaker
-  namespace: kube-metallb-system
+  namespace: metallb-system
 spec:
   selector:
     matchLabels:
@@ -371,7 +371,7 @@ metadata:
     app: metallb
     component: controller
   name: controller
-  namespace: kube-metallb-system
+  namespace: metallb-system
 spec:
   revisionHistoryLimit: 3
   selector:

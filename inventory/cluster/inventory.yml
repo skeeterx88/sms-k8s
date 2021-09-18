@@ -33,6 +33,7 @@ all:
     kube_node:
       hosts:
         srvk8sw01:
+        srvk8sw02:
     etcd:
       hosts:
         srvk8sm01:

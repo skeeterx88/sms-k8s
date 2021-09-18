@@ -1,34 +1,34 @@
 ---
 # Kubernetes dashboard
 # RBAC required. see docs/getting-started.md for access details.
-# dashboard_enabled: false
+dashboard_enabled: false
 
 # Helm deployment
-helm_enabled: false
+helm_enabled: true
 
 # Registry deployment
 registry_enabled: false
-# registry_namespace: kube-system
-# registry_storage_class: ""
-# registry_disk_size: "10Gi"
+#registry_namespace: "kube-registry"
+#registry_storage_class: "local-path"
+#registry_disk_size: "50Gi"
 
 # Metrics Server deployment
-metrics_server_enabled: false
-# metrics_server_kubelet_insecure_tls: true
-# metrics_server_metric_resolution: 60s
-# metrics_server_kubelet_preferred_address_types: "InternalIP"
+metrics_server_enabled: true
+metrics_server_kubelet_insecure_tls: true
+metrics_server_metric_resolution: 60s
+metrics_server_kubelet_preferred_address_types: "InternalIP"
 
 # Rancher Local Path Provisioner
 local_path_provisioner_enabled: false
-# local_path_provisioner_namespace: "local-path-storage"
-# local_path_provisioner_storage_class: "local-path"
-# local_path_provisioner_reclaim_policy: Delete
-# local_path_provisioner_claim_root: /opt/local-path-provisioner/
-# local_path_provisioner_debug: false
-# local_path_provisioner_image_repo: "rancher/local-path-provisioner"
-# local_path_provisioner_image_tag: "v0.0.19"
-# local_path_provisioner_helper_image_repo: "busybox"
-# local_path_provisioner_helper_image_tag: "latest"
+#local_path_provisioner_namespace: "kube-local-path-storage"
+#local_path_provisioner_storage_class: "local-path"
+#local_path_provisioner_reclaim_policy: Delete
+#local_path_provisioner_claim_root: /opt/volume/
+#local_path_provisioner_debug: false
+#local_path_provisioner_image_repo: "rancher/local-path-provisioner"
+#local_path_provisioner_image_tag: "v0.0.19"
+#local_path_provisioner_helper_image_repo: "busybox"
+#local_path_provisioner_helper_image_tag: "latest"
 
 # Local volume provisioner deployment
 local_volume_provisioner_enabled: false
@@ -84,23 +84,23 @@ rbd_provisioner_enabled: false
 # rbd_provisioner_reclaim_policy: Delete
 
 # Nginx ingress controller deployment
-ingress_nginx_enabled: false
-# ingress_nginx_host_network: false
+ingress_nginx_enabled: true
+ingress_nginx_host_network: true
 ingress_publish_status_address: ""
-# ingress_nginx_nodeselector:
-#   kubernetes.io/os: "linux"
-# ingress_nginx_tolerations:
-#   - key: "node-role.kubernetes.io/master"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
-#   - key: "node-role.kubernetes.io/control-plane"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
-# ingress_nginx_namespace: "ingress-nginx"
-# ingress_nginx_insecure_port: 80
-# ingress_nginx_secure_port: 443
+ingress_nginx_nodeselector:
+  kubernetes.io/os: "linux"
+ingress_nginx_tolerations:
+  - key: "node-role.kubernetes.io/master"
+    operator: "Equal"
+    value: ""
+    effect: "NoSchedule"
+  - key: "node-role.kubernetes.io/control-plane"
+    operator: "Equal"
+    value: ""
+    effect: "NoSchedule"
+ingress_nginx_namespace: "kube-ingress-nginx"
+ingress_nginx_insecure_port: 80
+ingress_nginx_secure_port: 443
 # ingress_nginx_configmap:
 #   map-hash-bucket-size: "128"
 #   ssl-protocols: "TLSv1.2 TLSv1.3"
@@ -114,9 +114,9 @@ ingress_publish_status_address: ""
 
 # ambassador ingress controller deployment
 ingress_ambassador_enabled: false
-# ingress_ambassador_namespace: "ambassador"
-# ingress_ambassador_version: "*"
-# ingress_ambassador_multi_namespaces: false
+#ingress_ambassador_namespace: "kube-ambassador"
+#ingress_ambassador_version: "*"
+#ingress_ambassador_multi_namespaces: false
 
 # ALB ingress controller deployment
 ingress_alb_enabled: false
@@ -128,35 +128,35 @@ ingress_alb_enabled: false
 
 # Cert manager deployment
 cert_manager_enabled: false
-# cert_manager_namespace: "cert-manager"
+#cert_manager_namespace: "cert-manager"
 
 # MetalLB deployment
-metallb_enabled: false
+metallb_enabled: true
 metallb_speaker_enabled: true
-# metallb_ip_range:
-#   - "10.5.0.50-10.5.0.99"
-# metallb_speaker_nodeselector:
-#   kubernetes.io/os: "linux"
-# metallb_controller_nodeselector:
-#   kubernetes.io/os: "linux"
-# metallb_speaker_tolerations:
-#   - key: "node-role.kubernetes.io/master"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
-#   - key: "node-role.kubernetes.io/control-plane"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
-# metallb_controller_tolerations:
-#   - key: "node-role.kubernetes.io/master"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
-#   - key: "node-role.kubernetes.io/control-plane"
-#     operator: "Equal"
-#     value: ""
-#     effect: "NoSchedule"
+metallb_ip_range:
+  - "172.16.208.7/32"
+#metallb_speaker_nodeselector:
+#  kubernetes.io/os: "linux"
+#metallb_controller_nodeselector:
+#  kubernetes.io/os: "linux"
+#metallb_speaker_tolerations:
+#  - key: "node-role.kubernetes.io/master"
+#    operator: "Equal"
+#    value: ""
+#    effect: "NoSchedule"
+#  - key: "node-role.kubernetes.io/control-plane"
+#    operator: "Equal"
+#    value: ""
+#    effect: "NoSchedule"
+#metallb_controller_tolerations:
+#  - key: "node-role.kubernetes.io/master"
+#    operator: "Equal"
+#    value: ""
+#    effect: "NoSchedule"
+#  - key: "node-role.kubernetes.io/control-plane"
+#    operator: "Equal"
+#    value: ""
+#    effect: "NoSchedule"
 # metallb_version: v0.9.6
 # metallb_protocol: "layer2"
 # metallb_port: "7472"
@@ -178,5 +178,5 @@ metallb_speaker_enabled: true
 #     my_asn: 4200000000
 
 # The plugin manager for kubectl
-krew_enabled: false
+krew_enabled: true
 krew_root_dir: "/usr/local/krew"
