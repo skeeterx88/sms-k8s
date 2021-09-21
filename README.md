@@ -63,23 +63,9 @@ ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa clu
 - [DNS stack](docs/dns-stack.md)
 - [HA mode](docs/ha-mode.md)
 - [Plugins de Rede](#plugins-de-Rede)
-- [Vagrant install](docs/vagrant.md)
-- [Flatcar Container Linux bootstrap](docs/flatcar.md)
-- [Fedora CoreOS bootstrap](docs/fcos.md)
-- [Debian Jessie setup](docs/debian.md)
-- [openSUSE setup](docs/opensuse.md)
-- [Downloaded artifacts](docs/downloads.md)
-- [Cloud providers](docs/cloud.md)
-- [OpenStack](docs/openstack.md)
-- [AWS](docs/aws.md)
-- [Azure](docs/azure.md)
-- [vSphere](docs/vsphere.md)
-- [Packet Host](docs/packet.md)
 - [Large deployments](docs/large-deployments.md)
 - [Adding/replacing a node](docs/nodes.md)
 - [Upgrades basics](docs/upgrades.md)
-- [Air-Gap installation](docs/offline-environment.md)
-- [Roadmap](docs/roadmap.md)
 
 ## Supported Linux Distributions
 
@@ -156,7 +142,7 @@ Você pode escolher entre 10 plug-ins de rede. (padrão `calico`, exceto para us
 
 - [Calico](https://docs.projectcalico.org/latest/introduction/) é um provedor de rede e política de rede. 
 Calico oferece suporte a um conjunto flexível de opções de rede projetadas para fornecer a você a rede mais eficiente em uma variedade de situações, incluindo redes não sobrepostas e sobrepostas, com ou sem BGP. 
-Calico usa o mesmo mecanismo para aplicar a política de rede para hosts, pods e (se estiver usando Istio e Envoy) aplicativos na camada de malha de serviço.
+Calico usa o mesmo mecanismo para aplicar a política de rede para hosts, pods e (se estiver usando Istio e Envoy) aplicativos na camada de service mesh.
 
 - [canal](https://github.com/projectcalico/canal): uma composição de plugins de calico and flannel.
 
@@ -179,23 +165,9 @@ A escolha é definida com a variável `kube_network_plugin`. Também há uma op�
 
 ## Ingress Plugins
 
-- [ambassador](docs/ambassador.md): O Ambassador Ingress Controller e gateway de API.
-
 - [nginx](https://kubernetes.github.io/ingress-nginx): o controlador de entrada NGINX.
 
 - [metallb](docs/metallb.md): o provedor LoadBalancer de serviço bare-metal da MetalLB.
-
-## **Documentos e recursos da comunidade**
-
-- [kubernetes.io/docs/setup/production-environment/tools/kubespray/](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/)
-- [kubespray, monitoramento e registro](https://github.com/gregbkr/kubernetes-kargo-logging-monitoring) por @gregbkr
-- [Implantar Kubernetes com Ansible e Terraform](https://rsmitty.github.io/Terraform-Ansible-Kubernetes/) por @rsmitty
-- [Implante um cluster Kubernetes com Kubespray (vídeo)](https://www.youtube.com/watch?v=CJ5G4GpqDy0)
-
-## **Ferramentas e projetos além do Kubespray**
-
-- [Digital Rebar Provision](https://github.com/digitalrebar/provision/blob/v4/doc/integrations/ansible.rst)
-- [Terraform Contrib](https://github.com/kubernetes-sigs/kubespray/tree/master/contrib/terraform)
 
 ## **Testes de CI**
 
