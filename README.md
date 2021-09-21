@@ -2,15 +2,6 @@
 
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 
-Se você tiver dúvidas, verifique a documentação em kubespray.io e junte-se a nós no slack do kubernetes , canal #kubespray. 
-Você pode obter o seu convite aqui.(http://slack.k8s.io/)
-
-- Pode ser implantado em AWS,  GCE, Azure, OpenStack, vSphere, Packet (bare m etal), Oracle Cloud Infrastructure (Experimental) ou Baremetal
-- **Highly available** cluster
-- **Composable** (escolha do plugin de rede, por exemplo)
-- Suporta **Linux distributions** mais populares
-- **Continuous integration tests**
-
 ## **Começo rápido**
 
 Para implantar o cluster, você pode usar:
@@ -62,24 +53,9 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/inventory/sample,dst=/inve
 ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa cluster.yml
 ```
 
-### Vagrant
-
-Para o Vagrant, precisamos instalar dependências Python para tarefas de provisionamento. Verifique se o Python e o pip estão instalados:
-
-```ShellSession
-python -V && pip -V
-```
-
-Se isso retornar a versão do software, você está pronto para prosseguir. Caso contrário, baixe e instale o Python aqui https://www.python.org/downloads/source/ Instale os requisitos necessários
-
-```ShellSession
-sudo pip install -r requirements.txt
-vagrant up
-```
-
 ## **Documentos**
 
-- [Requirements](#requirements)
+- [Requisitos](#requisitos)
 - [Kubespray vs ...](docs/comparisons.md)
 - [Getting started](docs/getting-started.md)
 - [Setting up your first cluster](docs/setting-up-your-first-cluster.md)
