@@ -56,15 +56,13 @@ ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa clu
 ## **Documentos**
 
 - [Requisitos](#requisitos)
-- [Kubespray vs ...](docs/comparisons.md)
 - [Getting started](docs/getting-started.md)
 - [Setting up your first cluster](docs/setting-up-your-first-cluster.md)
 - [Ansible inventory and tags](docs/ansible.md)
-- [Integration with existing ansible repo](docs/integration.md)
 - [Deployment data variables](docs/vars.md)
 - [DNS stack](docs/dns-stack.md)
 - [HA mode](docs/ha-mode.md)
-- [Network plugins](#network-plugins)
+- [Plugins de Rede](#plugins-de-Rede)
 - [Vagrant install](docs/vagrant.md)
 - [Flatcar Container Linux bootstrap](docs/flatcar.md)
 - [Fedora CoreOS bootstrap](docs/fcos.md)
