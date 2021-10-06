@@ -14,22 +14,19 @@ Para implantar o cluster, você pode usar:
 # Install dependencies from ``requirements.txt``
 sudo pip3 install -r requirements.txt
 
-# Copy ``inventory/sample`` as ``inventory/mycluster``
-cp -rfp inventory/sample inventory/mycluster
-
-# Update Ansible inventory file with inventory builder
-declare -a IPS=(10.10.1.3 10.10.1.4 10.10.1.5)
-CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
+# Edit inventory file
+vim inventory/cluster/inventory.yaml
 
 # Review and change parameters under ``inventory/mycluster/group_vars``
-cat inventory/mycluster/group_vars/all/all.yml
-cat inventory/mycluster/group_vars/k8s_cluster/k8s_cluster.yml
+cat inventory/cluster/group_vars/all/all.yml
+cat inventory/cluster/group_vars/k8s_cluster/k8s_cluster.yml
 
 # Deploy Kubespray with Ansible Playbook - run the playbook as root
 # The option `--become` is required, as for example writing SSL keys in /etc/,
 # installing packages and interacting with various systemd daemons.
 # Without --become the playbook will fail to run!
-ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+ansible-playbook -i inventory/cluster/inventory.yaml  --become pre-req.yml
+ansible-playbook -i inventory/cluster/inventory.yaml  --become cluster.yml
 ```
 
 Nota: Quando o Ansible já está instalado por meio de pacotes de sistema na máquina de controle, outros pacotes python instalados por sudo pip install -r requirements.txt vão para uma árvore de diretório diferente (por exemplo, /usr/local/lib/python2.7/dist-packages, no Ubuntu) do Ansible (por exemplo, /usr/lib/python2.7/dist-packages/ansible, ainda no Ubuntu). Como consequência, o ansible-playbook comando falhará com:
@@ -50,7 +47,7 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/inventory/sample,dst=/inve
   --mount type=bind,source="${HOME}"/.ssh/id_rsa,dst=/root/.ssh/id_rsa \
   quay.io/kubespray/kubespray:v2.15.1 bash
 # Inside the container you may now run the kubespray playbooks:
-ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa cluster.yml
+ansible-playbook -i inventory/cluster/inventory.yaml --become --private-key /root/.ssh/id_rsa cluster.yml
 ```
 
 ## **Documentos**
