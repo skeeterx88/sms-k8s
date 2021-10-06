@@ -25,6 +25,7 @@ cat inventory/cluster/group_vars/k8s_cluster/k8s_cluster.yml
 # The option `--become` is required, as for example writing SSL keys in /etc/,
 # installing packages and interacting with various systemd daemons.
 # Without --become the playbook will fail to run!
+ansible-playbook -i inventory/cluster/inventory.yaml  --become pre-req.yml
 ansible-playbook -i inventory/cluster/inventory.yaml  --become cluster.yml
 ```
 
