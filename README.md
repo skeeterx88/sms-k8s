@@ -25,7 +25,7 @@ cat inventory/cluster/group_vars/k8s_cluster/k8s_cluster.yml
 # The option `--become` is required, as for example writing SSL keys in /etc/,
 # installing packages and interacting with various systemd daemons.
 # Without --become the playbook will fail to run!
-ansible-playbook -i inventory/mycluster/hosts.yaml  --become --become-user=root cluster.yml
+ansible-playbook -i inventory/cluster/inventory.yaml  --become cluster.yml
 ```
 
 Nota: Quando o Ansible já está instalado por meio de pacotes de sistema na máquina de controle, outros pacotes python instalados por sudo pip install -r requirements.txt vão para uma árvore de diretório diferente (por exemplo, /usr/local/lib/python2.7/dist-packages, no Ubuntu) do Ansible (por exemplo, /usr/lib/python2.7/dist-packages/ansible, ainda no Ubuntu). Como consequência, o ansible-playbook comando falhará com:
@@ -46,7 +46,7 @@ docker run --rm -it --mount type=bind,source="$(pwd)"/inventory/sample,dst=/inve
   --mount type=bind,source="${HOME}"/.ssh/id_rsa,dst=/root/.ssh/id_rsa \
   quay.io/kubespray/kubespray:v2.15.1 bash
 # Inside the container you may now run the kubespray playbooks:
-ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa cluster.yml
+ansible-playbook -i inventory/cluster/inventory.yaml --become --private-key /root/.ssh/id_rsa cluster.yml
 ```
 
 ## **Documentos**
